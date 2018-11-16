@@ -7,9 +7,8 @@ if [ ! -d course-v3 ]; then
         mount -o remount /dev/shm
 
         mkdir -p /content/.torch/
-        mkdir -p /content/.fastai/data/
-        rm -rf /content/clouderizer/fastai-v3/data/
-        ln -s /content/.fastai/data/ /content/clouderizer/fastai-v3/data
+        mkdir -p /content/.fastai/
+        ln -s /content/clouderizer/fastai-v3/data/ /content/.fastai/data/ 
         rm -rf /content/sample_data/
         git clone https://github.com/fastai/course-v3
 fi
