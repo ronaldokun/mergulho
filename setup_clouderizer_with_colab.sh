@@ -17,4 +17,4 @@ fi
 pip3 install fastai --upgrade
 cd course-v3
 git pull
-mv /content/course-v3 /content/clouderizer/fastai-v3/
+rm -rf /content/course-v3
