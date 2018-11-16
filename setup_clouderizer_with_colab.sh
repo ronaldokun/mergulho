@@ -8,7 +8,7 @@ if [ ! -d course-v3 ]; then
 
         mkdir -p /content/.torch/
         mkdir -p /content/.fastai/
-        ln -s /content/clouderizer/fastai-v3/data/ /content/.fastai/data/ 
+        ln -s /content/clouderizer/fastai-v3/data/ /content/.fastai/data 
         rm -rf /content/sample_data/
         git clone https://github.com/fastai/course-v3
 fi
