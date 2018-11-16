@@ -6,10 +6,11 @@ if [ ! -d course-v3 ]; then
         sed -n -e '/^tmpfs \/dev\/shm tmpfs defaults,size=/!p' -e '$atmpfs \/dev\/shm tmpfs defaults,size=1g 0 0' -i /etc/fstab
         mount -o remount /dev/shm
 
-        mkdir -p /content/.torch/models
-        mkdir -p /content/.fastai/data
-        ln -s /content/.torch/models /content/fastai-v3/data
-        ln -s /content/.fastai/data /content/fastai-v3/data
+        mkdir -p /content/.torch/
+        mkdir -p /content/.fastai/
+        mkdir -p /content/clouderizer/fastai-v3/data/models
+        ln -s /content/.torch/models /content/clouderizer/fastai-v3/models
+        ln -s /content/.fastai/data /content/clouderizer/fastai-v3/data
         rm -rf /content/sample_data/
         git clone https://github.com/fastai/course-v3
 fi
