@@ -16,4 +16,3 @@ fi
 pip3 install fastai --upgrade
 cd course-v3
 git pull
-rm -rf /content/course-v3
