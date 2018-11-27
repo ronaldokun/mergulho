@@ -11,8 +11,8 @@ if [ ! -d course-v3 ]; then
         ln -s /content/clouderizer/fastai-v3/data/ /content/.fastai/data 
         rm -rf /content/sample_data/
         git clone https://github.com/fastai/course-v3
+        pip3 install fastai --upgrade
+        cd course-v3
+        git pull
 fi
 
-pip3 install fastai --upgrade
-cd course-v3
-git pull
