@@ -1,4 +1,6 @@
 #!/bin/bash
+pip3 install pip3 --upgrade
+pip3 uninstall numpy torchvision_nightly torch torch_nightly -y
 pip3 install torch_nightly -f https://download.pytorch.org/whl/nightly/cu92/torch_nightly.html --upgrade
 mkdir -p /content/.torch/
 mkdir -p /content/.fastai/
