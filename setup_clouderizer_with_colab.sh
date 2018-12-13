@@ -5,8 +5,7 @@ pip3 uninstall numpy torchvision_nightly torch torch_nightly -y
 pip3 install torch_nightly -f https://download.pytorch.org/whl/nightly/cu92/torch_nightly.html --upgrade
 mkdir -p /content/.torch/
 mkdir -p /content/.fastai/
-ln -s /content/clouderizer/fastai-v3/data/ /content/.fastai/data 
+echo data_path: /content/clouderizer/fastai-v1/data > ~/.fastai/config.yml
+echo data_path: /content/clouderizer/fastai-v1/out >> ~/.fastai/config.yml
 pip3 install fastai --upgrade
-git clone https://github.com/fastai/course-v3.git
-mv course-v3 /content/fastai-v3/code/
 
