@@ -6,6 +6,6 @@ pip3 install torch_nightly -f https://download.pytorch.org/whl/nightly/cu92/torc
 mkdir -p /content/.torch/
 mkdir -p /content/.fastai/
 echo data_path: /content/clouderizer/fastai-v1/data > ~/.fastai/config.yml
-echo data_path: /content/clouderizer/fastai-v1/out >> ~/.fastai/config.yml
+echo model_path: /content/clouderizer/fastai-v1/out >> ~/.fastai/config.yml
 pip3 install fastai --upgrade
 
