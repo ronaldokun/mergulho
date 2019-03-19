@@ -5,6 +5,7 @@ pip3 install fastai --upgrade
 pip3 install jupyter --upgrade 
 pip3 install jupyter_nbextensions_configurator --upgrade 
 pip3 install jupyter_contrib_nbextensions --upgrade
+pip3 install nbconvert
 jupyter contrib nbextension install
 jupyter nbextensions_configurator enable
 pip3 install --no-deps pretrainedmodels
