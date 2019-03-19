@@ -3,11 +3,11 @@ pip3 install --upgrade pip
 pip3 install dataclasses
 pip3 install fastai --upgrade
 pip3 install jupyter --upgrade 
-pip3 install jupyter_nbextensions_configurator --upgrade 
-pip3 install jupyter_contrib_nbextensions --upgrade
+pip3 install jupyter_nbextensions_configurator
+pip3 install jupyter_contrib_nbextensions
 pip3 install nbconvert
-jupyter contrib nbextension install
-jupyter nbextensions_configurator enable
+jupyter contrib nbextension install --user
+jupyter nbextensions_configurator enable --user
 pip3 install --no-deps pretrainedmodels
 
 mkdir -p /content/.torch/
