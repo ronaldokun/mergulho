@@ -35,9 +35,9 @@ jupyter labextension install jupyterlab-jupytext
 
 jupyter notebook --generate-config
 
-echo c.NotebookApp.contents_manager_class = "jupytext.TextFileContentsManager" > /content/clouderizer/.jupyter/jupyter_notebook_config.py
+echo c.NotebookApp.contents_manager_class = "jupytext.TextFileContentsManager" > /content/.jupyter/jupyter_notebook_config.py
 
-echo c.ContentsManager.preferred_jupytext_formats_save = "py:percent" >> /content/clouderizer/.jupyter/jupyter_notebook_config.py
+echo c.ContentsManager.preferred_jupytext_formats_save = "py:percent" >> /content/.jupyter/jupyter_notebook_config.py
 
 
 
