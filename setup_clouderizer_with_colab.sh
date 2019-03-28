@@ -19,6 +19,7 @@ echo PATH=/usr/local/lib/nodejs/node-$VERSION-$DISTRO/bin:$PATH > ~/.profile
 . ~/.profile
 jupyter labextension install @jupyterlab/toc
 
+pip3 install jupytext --upgrade
 pip3 install --no-deps pretrainedmodels
 
 mkdir -p /content/.torch/
@@ -26,6 +27,18 @@ mkdir -p /content/.fastai/
 mkdir -p /content/clouderizer/fastai-1.0/out/models
 echo data_path: /content/clouderizer/fastai-1.0/data/ > /content/.fastai/config.yml
 echo model_path: /content/clouderizer/fastai-1.0/out/ >> /content/.fastai/config.yml
+
+jupyter nbextension install --py jupytext --user
+jupyter nbextension enable --py jupytext --user
+
+jupyter labextension install jupyterlab-jupytext
+
+jupyter notebook --generate-config
+
+echo c.NotebookApp.contents_manager_class = "jupytext.TextFileContentsManager" > /content/clouderizer/.jupyter/jupyter_notebook_config.py
+
+echo c.ContentsManager.preferred_jupytext_formats_save = "py:percent" >> /content/clouderizer/.jupyter/jupyter_notebook_config.py
+
 
 
 
