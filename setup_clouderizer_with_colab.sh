@@ -9,6 +9,7 @@ pip3 install jupyterlab --upgrade
 pip3 install jupyter_nbextensions_configurator
 pip3 install jupyter_contrib_nbextensions
 pip3 install nbconvert
+pip3 install fire
 
 # Install the jupyter notebook extensions and configurator
 jupyter contrib nbextension install --user
