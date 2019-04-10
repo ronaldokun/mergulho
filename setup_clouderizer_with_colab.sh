@@ -47,3 +47,16 @@ jupyter notebook --generate-config
 echo c.NotebookApp.contents_manager_class = "jupytext.TextFileContentsManager" > /content/.jupyter/jupyter_notebook_config.py
 
 echo c.ContentsManager.preferred_jupytext_formats_save = "py:percent" >> /content/.jupyter/jupyter_notebook_config.py
+
+jupyter nbextension enable collapsible_headings/main
+jupyter nbextension enable nbTranslate/main
+jupyter nbextension enable rubberband/main
+jupyter nbextension enable exercise/main
+jupyter nbextension enable exercise2/main
+jupyter nbextension enable execute_time/ExecuteTime
+jupyter nbextension enable toc2/main
+jupyter nbextension enable varInspector/main
+jupyter nbextension enable execute_time/ExecuteTime
+jupyter nbextension install --py jupytext 
+jupyter nbextension enable --py jupytext
+jupyter labextension install jupyterlab-jupytext
