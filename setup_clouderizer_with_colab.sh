@@ -1,15 +1,10 @@
 #!/bin/bash
 # Install fastai, jupyter, jupylab and dependencies ( The docker container in clouderizer is inside another Docker Container [ the Colab or Kaggle One ] so no use of conda )
 
-pip3 install --upgrade pip
-pip3 install dataclasses
-pip3 install fastai --upgrade
-pip3 install jupyter --upgrade
-pip3 install jupyterlab --upgrade
-pip3 install jupyter_nbextensions_configurator
-pip3 install jupyter_contrib_nbextensions
-pip3 install nbconvert
-pip3 install fire
+pip3 install --upgrade pip dataclasses fastai jupyter ipython jupyterlab jupyter_nbextensions_configurator jupyter_contrib_nbextensions nbconvert fire
+
+# Fix issue described here: https://github.com/jupyter/jupyter/issues/270#issuecomment-322969531
+ipython3 kernel install
 
 # Install the jupyter notebook extensions and configurator
 jupyter contrib nbextension install --user
@@ -40,23 +35,3 @@ mkdir -p /content/.fastai/
 mkdir -p /content/clouderizer/fastai-1.0/out/models
 echo data_path: /content/clouderizer/fastai-1.0/data/ > /content/.fastai/config.yml
 echo model_path: /content/clouderizer/fastai-1.0/out/ >> /content/.fastai/config.yml
-
-# Config the automatic generation of a python script as we run a notebook 
-jupyter notebook --generate-config
-
-echo c.NotebookApp.contents_manager_class = "jupytext.TextFileContentsManager" > /content/.jupyter/jupyter_notebook_config.py
-
-echo c.ContentsManager.preferred_jupytext_formats_save = "py:percent" >> /content/.jupyter/jupyter_notebook_config.py
-
-jupyter nbextension enable collapsible_headings/main
-jupyter nbextension enable nbTranslate/main
-jupyter nbextension enable rubberband/main
-jupyter nbextension enable exercise/main
-jupyter nbextension enable exercise2/main
-jupyter nbextension enable execute_time/ExecuteTime
-jupyter nbextension enable toc2/main
-jupyter nbextension enable varInspector/main
-jupyter nbextension enable execute_time/ExecuteTime
-jupyter nbextension install --py jupytext 
-jupyter nbextension enable --py jupytext
-jupyter labextension install jupyterlab-jupytext
