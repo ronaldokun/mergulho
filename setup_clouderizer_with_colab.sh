@@ -41,13 +41,6 @@ mkdir -p /content/clouderizer/fastai-1.0/out/models
 echo data_path: /content/clouderizer/fastai-1.0/data/ > /content/.fastai/config.yml
 echo model_path: /content/clouderizer/fastai-1.0/out/ >> /content/.fastai/config.yml
 
-# Install the jupyter extension that allow jupytext settings in the Menu
-jupyter nbextension install --py jupytext --user
-jupyter nbextension enable --py jupytext --user
-
-# Install the jupyterlab extension that allow jupytext settings in the Menu
-jupyter labextension install jupyterlab-jupytext
-
 # Config the automatic generation of a python script as we run a notebook 
 jupyter notebook --generate-config
 
