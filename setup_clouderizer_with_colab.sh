@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install fastai, jupyter, jupylab and dependencies ( The docker container in clouderizer is inside another Docker Container [ the Colab or Kaggle One ] so no use of conda )
 
-pip3 uninstall jupyter
+pip3 uninstall jupyter -y
 pip3 install --upgrade pip dataclasses fastai ipython jupyter jupyterlab jupyter_nbextensions_configurator jupyter_contrib_nbextensions nbconvert fire black
 
 # Fix issue described here: https://github.com/jupyter/jupyter/issues/270#issuecomment-322969531
