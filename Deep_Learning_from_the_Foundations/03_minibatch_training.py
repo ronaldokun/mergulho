@@ -1,11 +1,12 @@
 # ---
 # jupyter:
 #   jupytext:
+#     formats: ipynb,py:percent
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.1.1
+#       jupytext_version: 1.2.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -42,7 +43,7 @@ n_hidden = 50
 
 
 # %% [markdown] {"solution_first": true, "solution": "shown"}
-# #### Exercise 1
+# ### Exercise
 #
 # **Create a simple Model inherited from `nn.Module` with 3 Layers**
 
@@ -57,17 +58,6 @@ class Model(nn.Module):
         
 
 
-# %% {"solution_first": true, "solution": "hidden", "solution2": "shown"}
-class Model(nn.Module):
-    def __init__(self, n_input, n_hidden, n_out):
-        super().__init__()
-        self.layers = [nn.Linear(n_input,n_hidden), nn.ReLU(), nn.Linear(n_hidden,n_out)]
-        
-    def __call__(self, x):
-        for l in self.layers: x = l(x)
-        return x
-
-
 # %%
 model = Model(m, n_hidden, 10)
 
@@ -76,34 +66,109 @@ pred = model(x_train)
 
 
 # %% [markdown]
-# ### Cross entropy loss
+# ### Softmax Function
 
 # %% [markdown]
-# First, we will need to compute the softmax of our activations. This is defined by:
+# Softmax function takes an N-dimensional vector of real numbers and transforms it into a vectors of real numbers in the range (0,1) which adds to 1, i.e. a probability.
 #
-# $$\hbox{softmax(x)}_{i} = \frac{e^{x_{i}}}{e^{x_{0}} + e^{x_{1}} + \cdots + e^{x_{n-1}}}$$
+# This property of softmax function that it outputs a probability distribution makes it suitable for probabilistic interpretation in classification tasks. [Read More Here](https://deepnotes.io/softmax-crossentropy)
+#
+# The vector $x_{i}$ in the present case is our i-th activation:
+#
+# $$softmax(x_{i}) = \frac{e^{x_{i}}}{e^{x_{0}} + e^{x_{1}} + \cdots + e^{x_{n-1}}}$$
 #
 # or more concisely:
 #
-# $$\hbox{softmax(x)}_{i} = \frac{e^{x_{i}}}{\sum_{0 \leq j \leq n-1} e^{x_{j}}}$$ 
-#
-# In practice, we will need the log of the softmax when we calculate the loss.
-#
-# $$\log (\hbox{softmax(x)}_{i}) = \log(\frac{e^{x_{i}}}{\sum_{0 \leq j \leq n-1} e^{x_{j}}}) $$
-#
+# $$softmax(x_{i}) = \frac{e^{x_{i}}}{\sum_{0}^{N-1} e^{x_{j}}}$$ 
 
 # %% [markdown] {"solution_first": true, "solution": "shown"}
-# #### Exercise 2
-# **Create a function which calculates the log of softmax using Pytorch's Tensor**
+# ### Exercise
+# **Create a function which calculates the softmax using only numpy**
 
-# %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
-def log_softmax(x): 
+# %%
+def softmax(x):
+    """
+    Args:
+        x: n-dimensional numpy array (ndarray)
+    Returns:
+        ndarray which sums to 1
+    """
     pass
 
 
-# %% {"solution": "shown", "solution2": "shown"}
-def log_softmax(x): 
-    return (x.exp()/(x.exp().sum(-1,keepdim=True))).log()
+# %% [markdown] {"solution_first": true, "solution": "shown"}
+# ### Exercise
+# **Create a function which calculates the softmax using Pytorch's Tensor**
+
+# %%
+def softmax(x):
+    """
+    Args:
+        x: n-dimensional Tensor ()
+    Returns:
+        n-dimensional Tensor which sums to 1
+    """
+    pass
+
+
+# %% [markdown]
+# To make our softmax function numerically stable, we simply normalize the values in the vector, by multiplying the numerator and denominator with a constant C.
+#
+# \begin{align}
+# p_i &= \frac{e^{x_i}}{\sum_{j=0}^{N-1} e^{a_j}} \\
+# &= \frac{Ce^{x_i}}{C\sum_{j=0}^{N-1} e^{a_j}} \\
+# &= \frac{e^{x_i + \log(C)}}{\sum_{j=0}^{N-1} e^{a_j + \log(C)}} \\
+# \end{align}
+
+# %% [markdown]
+# ### Exercise
+# **Create a numerical stable version of softmax using only numpy**
+
+# %%
+def softmax(x):
+    """Numerically Stable Version of Softmax
+    Args:
+        x: n-dimensional numpy array (ndarray)
+    Returns:
+        ndarray which sums to 1
+    """
+    pass
+
+
+# %% [markdown]
+# In practice, we will need the log of the softmax when we calculate the loss.
+#
+# $$\log \left(softmax(x_i)\right) = \log \left(\frac{e^{x_i + \log(C)}}{\sum_{j=0}^{N-1} e^{a_j + \log(C)}}\right)$$
+#
+
+# %% [markdown]
+# ### Exercise 
+# **Create a function which calculates the log softmax using only numpy**
+
+# %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
+def log_softmax(x):
+    """
+    Args:
+        x: n-dimensional numpy array (ndarray)
+    Returns:
+        ndarray
+    """    
+    pass
+
+
+# %% [markdown]
+# ### Exercise
+# **Create a function which calculates the log softmax using Pytorch's Tensor**
+
+# %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
+def log_softmax(x):
+    """
+    Args:
+        x: n-dimensional numpy array (ndarray)
+    Returns:
+        Pytorch n-dimensional Tensor
+    """    
+    pass
 
 
 # %%
@@ -133,9 +198,17 @@ y_train.shape[0]
 
 
 # %% [markdown] {"solution": "hidden"}
-# ### *Negative Log Likelihood*
+# ### Negative Log Likelihood
 #
-# We have 50000 output prediction tensors, with 10 columns each. For each input `i` and class `j`, we have $-\sum_{j}\log(p(x_{i,j})) == -\log(p(x_{k}))$ where `k` is the index of the correct class. That is the cross entropy loss for the prediction `i`. The mean of all data points is the _Negative Log Likelihood_
+# We have 50000 output prediction tensors, with 10 columns each. 
+# For each input `i` and class `j`, we have 
+#
+# $$-\sum_{j}\log[p(x_{i,j})] == -\log[p(x_{i,k})]$$
+#
+# where `k` is the index of the correct class. 
+# That is the cross entropy loss for the prediction `i`. 
+#
+# The mean of all data points is the _Negative Log Likelihood_
 
 # %% [markdown] {"solution_first": true, "solution": "shown"}
 # #### Exercise 3
@@ -378,7 +451,7 @@ model.l1
 # Instead of iterating through the model layers and checking if the layers is a parameter to be updated, Pytorch has the iterable `model.parameters()` which only keep the layers which have weights.
 
 # %% [markdown] {"solution_first": true, "solution": "shown"}
-# #### Exercise 7
+# ### Exercise 7
 # Implement the same basic training loop but this time iterating directly through the parameters in the update loop
 
 # %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
