@@ -47,7 +47,7 @@ n_hidden = 50
 #
 # **Create a simple Model inherited from `nn.Module` with 3 Layers**
 
-# %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
+# %% {"solution2_first": true, "solution2": "shown"}
 class Model(nn.Module):
     def __init__(self, n_input, n_hidden, n_out):
         super().__init__()
@@ -174,7 +174,7 @@ def log_softmax(x):
 # %%
 sm_pred = log_softmax(pred)
 
-# %% [markdown]
+# %% [markdown] {"solution": "hidden"}
 # The cross entropy loss for some target $x$ and some prediction $p(x)$ is given by:
 #
 # $$ -\sum x\, \log p(x) $$
@@ -208,20 +208,16 @@ y_train.shape[0]
 # where `k` is the index of the correct class. 
 # That is the cross entropy loss for the prediction `i`. 
 #
-# The mean of all data points is the _Negative Log Likelihood_
+# The mean of all data points is the _Negative Log Likelihood_. Sometimes is just called the same: _Cross Entropy_
 
 # %% [markdown] {"solution_first": true, "solution": "shown"}
-# #### Exercise 3
+# ### Exercise
+#
 # **Calculate the _Negative Log Likelihood_**
 
 # %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
 def nll(prediction, target): 
     pass
-
-
-# %% {"solution2": "shown"}
-def nll(prediction, target): 
-    return -prediction[range(target.shape[0]), target].mean()
 
 
 # %%
@@ -236,7 +232,7 @@ loss
 #
 # $$\log \left ( \frac{a}{b} \right ) = \log(a) - \log(b)$$ 
 #
-# gives a simplification when we compute the log softmax, which was previously defined as `(x.exp()/(x.exp().sum(-1,keepdim=True))).log()`
+# gives a simplification when we compute the log softmax.
 
 # %% [markdown] {"solution_first": true, "solution": "shown"}
 # #### Exercise 4
@@ -245,11 +241,6 @@ loss
 # %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
 def log_softmax(x): 
     pass
-
-
-# %% {"solution2": "shown"}
-def log_softmax(x): 
-    return x - x.exp().sum(-1,keepdim=True).log()
 
 
 # %%
@@ -347,13 +338,12 @@ lr = 0.5   # learning rate
 epochs = 1 # how many epochs to train for
 
 # %% [markdown] {"solution_first": true, "solution": "shown"}
-# #### Exercise 6
+# ### Exercise
 # **Complete the training loop below**
 
 # %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
 for epoch in range(epochs):
     for i in range((n-1)//bs + 1):
-#         set_trace()
         start_i = i*bs
         end_i = start_i+bs
         # get the batch
@@ -363,8 +353,8 @@ for epoch in range(epochs):
         pred = None
         # compare the output to the labels we have and compute a loss
         loss = None
+        
         # calculate the gradients of the loss with respect to every parameter of the model
-
         # update said parameters with those gradients to make them a little bit better        
         with torch.no_grad():
             pass
@@ -376,25 +366,6 @@ for epoch in range(epochs):
 
             
                     
-
-# %% {"solution2": "shown"}
-for epoch in range(epochs):
-    for i in range((n-1)//bs + 1):
-#         set_trace()
-        start_i = i*bs
-        end_i = start_i+bs
-        xb = x_train[start_i:end_i]
-        yb = y_train[start_i:end_i]
-        loss = loss_func(model(xb), yb)
-
-        loss.backward()
-        with torch.no_grad():
-            for l in model.layers:
-                if hasattr(l, 'weight'):
-                    l.weight -= l.weight.grad * lr
-                    l.bias   -= l.bias.grad   * lr
-                    l.weight.grad.zero_()
-                    l.bias  .grad.zero_()
 
 # %%
 loss_func(model(xb), yb), accuracy(model(xb), yb)
@@ -451,8 +422,8 @@ model.l1
 # Instead of iterating through the model layers and checking if the layers is a parameter to be updated, Pytorch has the iterable `model.parameters()` which only keep the layers which have weights.
 
 # %% [markdown] {"solution_first": true, "solution": "shown"}
-# ### Exercise 7
-# Implement the same basic training loop but this time iterating directly through the parameters in the update loop
+# ### Exercise
+# Implement the same basic training loop but this time iterating directly through the `parameters` atribute in the update loop
 
 # %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
 def fit():
@@ -474,22 +445,6 @@ def fit():
                 # Iterate through the parameters
 
                     # update the parameters with those gradients and zero the gradient fo the model
-
-
-# %% {"solution": "shown", "solution2": "shown"}
-def fit():
-    for epoch in range(epochs):
-        for i in range((n-1)//bs + 1):
-            start_i = i*bs
-            end_i = start_i+bs
-            xb = x_train[start_i:end_i]
-            yb = y_train[start_i:end_i]
-            loss = loss_func(model(xb), yb)
-
-            loss.backward()
-            with torch.no_grad():
-                for p in model.parameters(): p -= p.grad * lr
-                model.zero_grad()
 
 
 # %%
