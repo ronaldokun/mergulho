@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -47,7 +47,7 @@ n_hidden = 50
 #
 # **Create a simple Model inherited from `nn.Module` with 3 Layers**
 
-# %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
+# %% {"solution2_first": true, "solution2": "shown"}
 class Model(nn.Module):
     def __init__(self, n_input, n_hidden, n_out):
         super().__init__()
@@ -81,7 +81,7 @@ pred = model(x_train)
 #
 # $$softmax(x_{i}) = \frac{e^{x_{i}}}{\sum_{0}^{N-1} e^{x_{j}}}$$ 
 
-# %% [markdown] {"solution_first": true, "solution": "shown"}
+# %% [markdown]
 # ### Exercise
 # **Create a function which calculates the softmax using only numpy**
 
@@ -96,7 +96,7 @@ def softmax(x):
     pass
 
 
-# %% [markdown] {"solution_first": true, "solution": "shown"}
+# %% [markdown]
 # ### Exercise
 # **Create a function which calculates the softmax using Pytorch's Tensor**
 
@@ -145,7 +145,7 @@ def softmax(x):
 # ### Exercise 
 # **Create a function which calculates the log softmax using only numpy**
 
-# %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
+# %% {"solution": "shown"}
 def log_softmax(x):
     """
     Args:
@@ -160,7 +160,7 @@ def log_softmax(x):
 # ### Exercise
 # **Create a function which calculates the log softmax using Pytorch's Tensor**
 
-# %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
+# %% {"solution": "shown"}
 def log_softmax(x):
     """
     Args:
@@ -208,20 +208,16 @@ y_train.shape[0]
 # where `k` is the index of the correct class. 
 # That is the cross entropy loss for the prediction `i`. 
 #
-# The mean of all data points is the _Negative Log Likelihood_
+# The mean of all data points is the _Negative Log Likelihood_. Sometimes is just called the same: _Cross Entropy Loss_
 
 # %% [markdown] {"solution_first": true, "solution": "shown"}
-# #### Exercise 3
+# ### Exercise
+#
 # **Calculate the _Negative Log Likelihood_**
 
-# %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
+# %% {"solution2_first": true, "solution2": "hidden"}
 def nll(prediction, target): 
     pass
-
-
-# %% {"solution2": "shown"}
-def nll(prediction, target): 
-    return -prediction[range(target.shape[0]), target].mean()
 
 
 # %%
@@ -236,20 +232,15 @@ loss
 #
 # $$\log \left ( \frac{a}{b} \right ) = \log(a) - \log(b)$$ 
 #
-# gives a simplification when we compute the log softmax, which was previously defined as `(x.exp()/(x.exp().sum(-1,keepdim=True))).log()`
+# gives a simplification when we compute the log softmax.
 
-# %% [markdown] {"solution_first": true, "solution": "shown"}
-# #### Exercise 4
+# %% [markdown]
+# ### Exercise
 # **Calculate the log softmax in a simplified manner**
 
-# %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
+# %%
 def log_softmax(x): 
     pass
-
-
-# %% {"solution2": "shown"}
-def log_softmax(x): 
-    return x - x.exp().sum(-1,keepdim=True).log()
 
 
 # %%
@@ -263,19 +254,14 @@ test_near(nll(log_softmax(pred), y_train), loss)
 #
 # where a is the maximum of the $x_{j}$.
 
-# %% [markdown] {"solution_first": true, "solution": "shown"}
-# #### Exercise 5 
+# %% [markdown]
+# ### Exercise 
 # **Calculate the log softmax using the Exponential trick above**
 
-# %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
+# %%
 def logsumexp(x):
+    
     pass
-
-
-# %% {"solution2": "shown"}
-def logsumexp(x):
-    m = x.max(-1)[0]
-    return m + (x-m[:,None]).exp().sum(-1).log()
 
 
 # %% [markdown]
@@ -347,13 +333,12 @@ lr = 0.5   # learning rate
 epochs = 1 # how many epochs to train for
 
 # %% [markdown] {"solution_first": true, "solution": "shown"}
-# #### Exercise 6
+# ### Exercise
 # **Complete the training loop below**
 
-# %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
+# %% {"solution": "shown"}
 for epoch in range(epochs):
     for i in range((n-1)//bs + 1):
-#         set_trace()
         start_i = i*bs
         end_i = start_i+bs
         # get the batch
@@ -363,8 +348,8 @@ for epoch in range(epochs):
         pred = None
         # compare the output to the labels we have and compute a loss
         loss = None
+        
         # calculate the gradients of the loss with respect to every parameter of the model
-
         # update said parameters with those gradients to make them a little bit better        
         with torch.no_grad():
             pass
@@ -377,25 +362,6 @@ for epoch in range(epochs):
             
                     
 
-# %% {"solution2": "shown"}
-for epoch in range(epochs):
-    for i in range((n-1)//bs + 1):
-#         set_trace()
-        start_i = i*bs
-        end_i = start_i+bs
-        xb = x_train[start_i:end_i]
-        yb = y_train[start_i:end_i]
-        loss = loss_func(model(xb), yb)
-
-        loss.backward()
-        with torch.no_grad():
-            for l in model.layers:
-                if hasattr(l, 'weight'):
-                    l.weight -= l.weight.grad * lr
-                    l.bias   -= l.bias.grad   * lr
-                    l.weight.grad.zero_()
-                    l.bias  .grad.zero_()
-
 # %%
 loss_func(model(xb), yb), accuracy(model(xb), yb)
 
@@ -407,31 +373,18 @@ loss_func(model(xb), yb), accuracy(model(xb), yb)
 # ### Parameters
 
 # %% [markdown] {"solution_first": true, "solution": "shown"}
-# Use `nn.Module.__setattr__` and move relu to functional:
+# ### Exercise
+# Modify the previous model using `nn.Module.__setattr__` and move relu to functional:
 
-# %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
+# %% {"solution": "shown"}
 class Model(nn.Module):
     def __init__(self, n_input, n_hidden, n_out):
         super().__init__()
-        self.l1 = pass
-        self.l2 = pass
+        self.l1 = None
+        self.l2 = None
         
     def __call__(self, x): 
         pass
-
-
-# %% {"solution2": "shown"}
-class Model(nn.Module):
-    def __init__(self, n_input, n_hidden, n_out):
-        super().__init__()
-        self.l1 = nn.Linear(n_input,n_hidden)
-        self.l2 = nn.Linear(n_hidden,n_out)
-        
-    def __call__(self, x):
-        output = self.l1(x)
-        output = F.relu(output)
-        return self.l2(output)
-        # shorter: return self.l2(F.relu(self.l1(x)))
 
 
 # %%
@@ -450,11 +403,11 @@ model.l1
 # %% [markdown]
 # Instead of iterating through the model layers and checking if the layers is a parameter to be updated, Pytorch has the iterable `model.parameters()` which only keep the layers which have weights.
 
-# %% [markdown] {"solution_first": true, "solution": "shown"}
-# ### Exercise 7
-# Implement the same basic training loop but this time iterating directly through the parameters in the update loop
+# %% [markdown]
+# ### Exercise
+# Implement the same basic training loop but this time iterating directly through the `parameters` atribute in the update loop
 
-# %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
+# %%
 def fit():
     for epoch in range(epochs):
         for i in range((n-1)//bs + 1):
@@ -472,24 +425,8 @@ def fit():
             # update said parameters with those gradients to make them a little bit better        
             with torch.no_grad():
                 # Iterate through the parameters
-
+                pass
                     # update the parameters with those gradients and zero the gradient fo the model
-
-
-# %% {"solution": "shown", "solution2": "shown"}
-def fit():
-    for epoch in range(epochs):
-        for i in range((n-1)//bs + 1):
-            start_i = i*bs
-            end_i = start_i+bs
-            xb = x_train[start_i:end_i]
-            yb = y_train[start_i:end_i]
-            loss = loss_func(model(xb), yb)
-
-            loss.backward()
-            with torch.no_grad():
-                for p in model.parameters(): p -= p.grad * lr
-                model.zero_grad()
 
 
 # %%
@@ -500,7 +437,7 @@ loss_func(model(xb), yb), accuracy(model(xb), yb)
 # %% [markdown]
 # Behind the scenes, PyTorch overrides the `__setattr__` function in `nn.Module` so that the submodules you define are properly registered as parameters of the model.
 
-# %% {"solution": "hidden"}
+# %%
 class DummyModule():
     def __init__(self, n_in, n_hidden, n_out):
         self._modules = {}
@@ -601,13 +538,12 @@ nn.Sequential??
 model
 
 
-# %% [markdown] {"solution": "hidden"}
+# %% [markdown]
 # ### optim
 
-# %% [markdown] {"solution_first": true, "solution": "shown"}
-# ** Exercise 8 ** 
-#
-# Let's replace our previous manually coded optimization step:
+# %% [markdown]
+# ### Exercise
+# Let's refactor our previous manually coded optimization step:
 #
 # ```python
 # with torch.no_grad():
@@ -622,31 +558,35 @@ model
 # opt.zero_grad()
 # ```
 
-# %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
+# %% {"solution_first": true, "solution": "hidden"}
 class Optimizer():
     def __init__(self, params, lr=0.5):
         self.params,self.lr = list(params),lr
         
     def step(self):
+        # iterate over the parameters and update them
         pass
     def zero_grad(self):
-        for p in self.params: p.grad.data.zero_()
+        # set each parameter's gradient to zero 
+        pass
 
 
-# %% {"solution2": "shown"}
+# %%
 class Optimizer():
     def __init__(self, params, lr=0.5):
         self.params,self.lr = list(params),lr
         
     def step(self):
+        # iterate over the parameters and update them
         with torch.no_grad():
             for p in self.params: p -= p.grad * lr
 
     def zero_grad(self):
+        # set each parameter's gradient to zero 
         for p in self.params: p.grad.data.zero_()
 
 
-# %% [markdown] {"solution2": "shown"}
+# %% [markdown]
 # It looks like we are duplicating code with the loop in `step` as well as in `zero_grad`. That's necessary because if we set to zero the gradient inside the step, we are no longer able to accumulate gradients if we want any more, since after finishing the optimizing step the gradient would invariably be set to zero. 
 
 # %%
@@ -657,10 +597,10 @@ opt = Optimizer(model.parameters())
 
 
 # %% [markdown] {"solution_first": true, "solution": "shown"}
-# #### Exercise 8
-# ** implement the basic training loop now using the optmizer step and zero_grad**
+# ### Exercise 
+# *Implement the basic training loop now using the optimizer step and zero_grad*
 
-# %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
+# %% {"solution": "shown"}
 def fit():
     for epoch in range(epochs):
         for i in range((n-1)//bs + 1):
@@ -678,21 +618,6 @@ def fit():
             # optimizer step
 
             # zero the gradient
-
-
-# %% {"solution2": "shown"}
-def fit():
-    for epoch in range(epochs):
-        for i in range((n-1)//bs + 1):
-            start_i = i*bs
-            end_i = start_i+bs
-            xb = x_train[start_i:end_i]
-            yb = y_train[start_i:end_i]
-            pred = model(xb)
-            loss = loss_func(pred, yb)
-            loss.backward()
-            opt.step()
-            opt.zero_grad()
 
 
 # %%
@@ -823,22 +748,16 @@ loss,acc
 #     ...
 # ```
 
-# %% [markdown] {"solution_first": true, "solution": "shown"}
-# #### Exercise 9
-# ** Implement the `__iter__` method to transform our Dataset into an iterator **
+# %% [markdown]
+# #### Exercise
+# *Implement the `__iter__` method to transform our Dataset into an iterator*
 
-# %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
+# %% {"solution2_first": true, "solution2": "shown"}
 class DataLoader():
     def __init__(self, ds, bs): self.ds,self.bs = ds,bs
     def __iter__(self):
+        #iterate over self.ds in self.bs chunks and yield the chunk
         pass
-
-
-# %% {"solution": "shown", "solution2": "shown"}
-class DataLoader():
-    def __init__(self, ds, bs): self.ds,self.bs = ds,bs
-    def __iter__(self):
-        for i in range(0, len(self.ds), self.bs): yield self.ds[i:i+self.bs]
 
 
 # %%
@@ -884,30 +803,22 @@ loss,acc
 # %% [markdown]
 # We want our training set to be in a random order, and that order should differ each iteration. But the validation set shouldn't be randomized.
 
-# %% [markdown] {"solution_first": true, "solution": "shown"}
+# %% [markdown]
 # #### Exercise 10
-# ** Create a randomized index of the dataset inside the method `__iter__` **
+# *Create a randomized index of the dataset inside the method `__iter__`*
 
-# %% {"solution": "shown", "solution2_first": true, "solution2": "shown"}
+# %%
 class Sampler():
     def __init__(self, ds, bs, shuffle=False):
         self.n,self.bs,self.shuffle = len(ds),bs,shuffle
         
     def __iter__(self):
+        # Create a random permutation of self.n if self.shuffle = True
+        # otherwise just return a range
         self.idxs = None
-        for i in range(0, self.n, self.bs): 
+        for i in range(0, self.n, self.bs):
+            # Pass the self.idxs created in chunks of size self.bs
             pass
-
-
-# %% {"solution2": "shown"}
-class Sampler():
-    def __init__(self, ds, bs, shuffle=False):
-        self.n,self.bs,self.shuffle = len(ds),bs,shuffle
-        
-    def __iter__(self):
-        self.idxs = torch.randperm(self.n) if self.shuffle else torch.arange(self.n)
-        for i in range(0, self.n, self.bs): 
-            yield self.idxs[i:i+self.bs]
 
 
 # %%
@@ -1042,10 +953,10 @@ def fit(epochs, model, loss_func, opt, train_dl, valid_dl):
     return tot_loss/nv, tot_acc/nv
 
 
-# %% [markdown] {"solution_first": true, "solution": "shown", "solution2_first": true, "solution2": "hidden"}
+# %% [markdown] {"solution_first": true, "solution": "shown"}
 # *Question*: Are these validation results correct if batch size varies?
 
-# %% [markdown] {"solution": "shown", "solution2": "hidden"}
+# %% [markdown] {"solution": "shown"}
 # If the batch size varies, the loss and accuracy also varies so the validation results would be different.
 
 # %% [markdown]
