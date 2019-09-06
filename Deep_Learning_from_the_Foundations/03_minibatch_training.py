@@ -964,7 +964,7 @@ def fit(epochs, model, loss_func, opt, train_dl, valid_dl):
 
 # %%
 #export
-def get_dls(train_ds, valid_ds, bs, **kwargs):
+def get_dataloaders(train_ds, valid_ds, bs, **kwargs):
     return (DataLoader(train_ds, batch_size=bs, shuffle=True, **kwargs),
             DataLoader(valid_ds, batch_size=bs*2, **kwargs))
 

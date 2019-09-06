@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -19,8 +19,13 @@
 # %matplotlib inline
 
 # %%
-#export
-from exp.nb_03 import *
+# export
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch import optim
+from exp.nb_02 import get_data
+from exp.nb_03 import accuracy, Dataset, get_dataloaders
 from dataclasses import dataclass
 
 # %% [markdown]
@@ -35,17 +40,19 @@ loss_func = F.cross_entropy
 
 
 # %%
-#export
+# export
 class DataBunch():
     def __init__(self, train_dataloader, valid_dataloader):
         self.train_dataloader, self.valid_dataloader = train_dataloader, valid_dataloader
         self.c = self.train_dataset.y.max().item()+1
 
     @property
-    def train_dataset(self): return self.train_dataloader.dataset
+    def train_dataset(self):
+        return self.train_dataloader.dataset
 
     @property
-    def valid_dataset(self): return self.valid_dataloader.dataset
+    def valid_dataset(self):
+        return self.valid_dataloader.dataset
 
 
 # %%
@@ -53,7 +60,7 @@ data = DataBunch(*get_dataloaders(train_dataset, valid_dataset, batch_size))
 
 
 # %%
-#export
+# export
 def get_model(data, lr=0.5, n_hidden=50):
     m = data.train_dataset.x.shape[1]
     model = nn.Sequential(nn.Linear(m,n_hidden), nn.ReLU(), nn.Linear(n_hidden,data.c))
@@ -90,7 +97,7 @@ def fit(epochs, learn):
                 pred = learn.model(xb)
                 tot_loss += learn.loss_func(pred, yb)
                 tot_acc  += accuracy (pred,yb)
-        nv = len(valid_dataloader)
+        nv = len(learn.data.valid_dataloader)
         print(epoch, tot_loss/nv, tot_acc/nv)
     return tot_loss/nv, tot_acc/nv
 
@@ -175,7 +182,7 @@ fit(1, learn, cb=CallbackHandler())
 # ## Runner
 
 # %%
-#export
+# export
 class Callback():
     _order=0
     def __init__(self, run): self.run=run
@@ -202,7 +209,7 @@ class TrainEvalCallback(Callback):
 
 
 # %%
-#export
+# export
 def listify(o):
     if o is None: return []
     if isinstance(o, list): return o
@@ -211,7 +218,7 @@ def listify(o):
 
 
 # %%
-#export
+# export
 class Runner():
     def __init__(self, callbacks=None):
         self.stop,self.callbacks = False,[TrainEvalCallback(self)]+listify(callbacks)
@@ -271,7 +278,7 @@ class Runner():
 
 
 # %%
-#export
+# export
 class AvgStats():
     def __init__(self, metrics, in_train): self.metrics,self.in_train = listify(metrics),in_train
 
