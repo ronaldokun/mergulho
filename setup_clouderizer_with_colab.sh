@@ -2,10 +2,10 @@
 # Install fastai, jupyter, jupylab and dependencies ( The docker container in clouderizer is inside another Docker Container [ the Colab or Kaggle One ] so no use of conda )
 
 # pip3 uninstall jupyter -y
-pip3 install --upgrade pip dataclasses fastai ipython jupyter jupyterlab jupyter_nbextensions_configurator jupyter_contrib_nbextensions nbconvert fire black
+pip install --upgrade pip dataclasses fastai ipython jupyter jupyterlab jupyter_nbextensions_configurator jupyter_contrib_nbextensions nbconvert fire black
 
 # Fix issue described here: https://github.com/jupyter/jupyter/issues/270#issuecomment-322969531
-ipython3 kernel install
+ipython kernel install
 
 # Install the jupyter notebook extensions and configurator
 jupyter contrib nbextension install --user
@@ -25,10 +25,10 @@ rm -rf ~/node-$VERSION-$DISTRO.tar.xz
 jupyter labextension install @jupyterlab/toc
 
 # Install Jupytext ( Paralel Editing of Jupyter Notebooks as scripts )
-pip3 install jupytext --upgrade
+pip install jupytext --upgrade
 
 # Install the pretrainedmodels
-pip3 install --no-deps pretrainedmodels
+pip install --no-deps pretrainedmodels
 
 # Setup the folders
 mkdir -p /content/.torch/

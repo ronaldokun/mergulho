@@ -52,10 +52,10 @@ class Model(nn.Module):
     def __init__(self, n_input, n_hidden, n_out):
         super().__init__()
         ### Initialize Layers Here
-        
+
     def __call__(self, x):
         pass
-        
+
 
 
 # %%
@@ -79,7 +79,7 @@ pred = model(x_train)
 #
 # or more concisely:
 #
-# $$softmax(x_{i}) = \frac{e^{x_{i}}}{\sum_{0}^{N-1} e^{x_{j}}}$$ 
+# $$softmax(x_{i}) = \frac{e^{x_{i}}}{\sum_{0}^{N-1} e^{x_{j}}}$$
 
 # %% [markdown]
 # ### Exercise
@@ -89,9 +89,9 @@ pred = model(x_train)
 def softmax(x):
     """
     Args:
-        x: n-dimensional numpy array (ndarray)
+    x: n-dimensional numpy array (ndarray)
     Returns:
-        ndarray which sums to 1
+    ndarray which sums to 1
     """
     pass
 
@@ -104,9 +104,9 @@ def softmax(x):
 def softmax(x):
     """
     Args:
-        x: n-dimensional Tensor ()
+    x: n-dimensional Tensor ()
     Returns:
-        n-dimensional Tensor which sums to 1
+    n-dimensional Tensor which sums to 1
     """
     pass
 
@@ -128,9 +128,9 @@ def softmax(x):
 def softmax(x):
     """Numerically Stable Version of Softmax
     Args:
-        x: n-dimensional numpy array (ndarray)
+    x: n-dimensional numpy array (ndarray)
     Returns:
-        ndarray which sums to 1
+    ndarray which sums to 1
     """
     pass
 
@@ -142,17 +142,17 @@ def softmax(x):
 #
 
 # %% [markdown]
-# ### Exercise 
+# ### Exercise
 # **Create a function which calculates the log softmax using only numpy**
 
 # %% {"solution": "shown"}
 def log_softmax(x):
     """
     Args:
-        x: n-dimensional numpy array (ndarray)
+    x: n-dimensional numpy array (ndarray)
     Returns:
-        ndarray
-    """    
+    ndarray
+    """
     pass
 
 
@@ -164,17 +164,17 @@ def log_softmax(x):
 def log_softmax(x):
     """
     Args:
-        x: n-dimensional numpy array (ndarray)
+    x: n-dimensional numpy array (ndarray)
     Returns:
-        Pytorch n-dimensional Tensor
-    """    
+    Pytorch n-dimensional Tensor
+    """
     pass
 
 
 # %%
 sm_pred = log_softmax(pred)
 
-# %% [markdown]
+# %% [markdown] {"solution": "hidden"}
 # The cross entropy loss for some target $x$ and some prediction $p(x)$ is given by:
 #
 # $$ -\sum x\, \log p(x) $$
@@ -200,13 +200,13 @@ y_train.shape[0]
 # %% [markdown] {"solution": "hidden"}
 # ### Negative Log Likelihood
 #
-# We have 50000 output prediction tensors, with 10 columns each. 
-# For each input `i` and class `j`, we have 
+# We have 50000 output prediction tensors, with 10 columns each.
+# For each input `i` and class `j`, we have
 #
 # $$-\sum_{j}\log[p(x_{i,j})] == -\log[p(x_{i,k})]$$
 #
-# where `k` is the index of the correct class. 
-# That is the cross entropy loss for the prediction `i`. 
+# where `k` is the index of the correct class.
+# That is the cross entropy loss for the prediction `i`.
 #
 # The mean of all data points is the _Negative Log Likelihood_. Sometimes is just called the same: _Cross Entropy Loss_
 
@@ -216,7 +216,7 @@ y_train.shape[0]
 # **Calculate the _Negative Log Likelihood_**
 
 # %% {"solution2_first": true, "solution2": "hidden"}
-def nll(prediction, target): 
+def nll(prediction, target):
     pass
 
 
@@ -228,9 +228,9 @@ loss
 
 
 # %% [markdown]
-# Note that the formula 
+# Note that the formula
 #
-# $$\log \left ( \frac{a}{b} \right ) = \log(a) - \log(b)$$ 
+# $$\log \left ( \frac{a}{b} \right ) = \log(a) - \log(b)$$
 #
 # gives a simplification when we compute the log softmax.
 
@@ -239,7 +239,7 @@ loss
 # **Calculate the log softmax in a simplified manner**
 
 # %%
-def log_softmax(x): 
+def log_softmax(x):
     pass
 
 
@@ -255,17 +255,17 @@ test_near(nll(log_softmax(pred), y_train), loss)
 # where a is the maximum of the $x_{j}$.
 
 # %% [markdown]
-# ### Exercise 
+# ### Exercise
 # **Calculate the log softmax using the Exponential trick above**
 
 # %%
 def logsumexp(x):
-    
+
     pass
 
 
 # %% [markdown]
-# This way, we will avoid an overflow when taking the exponential of a big activation. In PyTorch, this is already implemented for us. 
+# This way, we will avoid an overflow when taking the exponential of a big activation. In PyTorch, this is already implemented for us.
 
 # %%
 test_near(logsumexp(pred), pred.logsumexp(-1))
@@ -275,7 +275,7 @@ test_near(logsumexp(pred), pred.logsumexp(-1))
 # So we can use it for our `log_softmax` function.
 
 # %%
-def log_softmax(x): 
+def log_softmax(x):
     return x - x.logsumexp(-1,keepdim=True)
 
 
@@ -310,7 +310,7 @@ loss_func = F.cross_entropy
 
 # %%
 #export
-def accuracy(out, yb): 
+def accuracy(out, yb):
     return (torch.argmax(out, dim=1)==yb).float().mean()
 
 
@@ -348,19 +348,19 @@ for epoch in range(epochs):
         pred = None
         # compare the output to the labels we have and compute a loss
         loss = None
-        
+
         # calculate the gradients of the loss with respect to every parameter of the model
-        # update said parameters with those gradients to make them a little bit better        
+        # update said parameters with those gradients to make them a little bit better
         with torch.no_grad():
             pass
-            # Iterate through the model layers
-                
-                # check if the layer is subjected to update (i.e. is a parameter)
-                
-                    # update said parameters with those gradients and zero the gradient
+        # Iterate through the model layers
 
-            
-                    
+        # check if the layer is subjected to update (i.e. is a parameter)
+
+        # update said parameters with those gradients and zero the gradient
+
+
+
 
 # %%
 loss_func(model(xb), yb), accuracy(model(xb), yb)
@@ -382,8 +382,8 @@ class Model(nn.Module):
         super().__init__()
         self.l1 = None
         self.l2 = None
-        
-    def __call__(self, x): 
+
+    def __call__(self, x):
         pass
 
 
@@ -403,7 +403,11 @@ model.l1
 # %% [markdown]
 # Instead of iterating through the model layers and checking if the layers is a parameter to be updated, Pytorch has the iterable `model.parameters()` which only keep the layers which have weights.
 
+<<<<<<< HEAD
 # %% [markdown]
+=======
+# %% [markdown] {"solution_first": true, "solution": "shown"}
+>>>>>>> 84690f98d87a287eb89e92291de843b22ad2a20e
 # ### Exercise
 # Implement the same basic training loop but this time iterating directly through the `parameters` atribute in the update loop
 
@@ -422,11 +426,11 @@ def fit():
             loss = None
             # calculate the gradients of the loss with respect to every parameter of the model
 
-            # update said parameters with those gradients to make them a little bit better        
+            # update said parameters with those gradients to make them a little bit better
             with torch.no_grad():
                 # Iterate through the parameters
                 pass
-                    # update the parameters with those gradients and zero the gradient fo the model
+            # update the parameters with those gradients and zero the gradient fo the model
 
 
 # %%
@@ -443,13 +447,13 @@ class DummyModule():
         self._modules = {}
         self.l1 = nn.Linear(n_in,n_hidden)
         self.l2 = nn.Linear(n_hidden,n_out)
-        
+
     def __setattr__(self,k,v):
         if not k.startswith("_"): self._modules[k] = v
         super().__setattr__(k,v)
-        
+
     def __repr__(self): return f'{self._modules}'
-    
+
     def parameters(self):
         for l in self._modules.values():
             for p in l.parameters(): yield p
@@ -478,7 +482,7 @@ class Model(nn.Module):
         super().__init__()
         self.layers = layers
         for i,l in enumerate(self.layers): self.add_module(f'layer_{i}', l)
-        
+
     def __call__(self, x):
         for l in self.layers: x = l(x)
         return x
@@ -502,7 +506,7 @@ class SequentialModel(nn.Module):
     def __init__(self, layers):
         super().__init__()
         self.layers = nn.ModuleList(layers)
-        
+
     def __call__(self, x):
         for l in self.layers: x = l(x)
         return x
@@ -562,12 +566,12 @@ model
 class Optimizer():
     def __init__(self, params, lr=0.5):
         self.params,self.lr = list(params),lr
-        
+
     def step(self):
         # iterate over the parameters and update them
         pass
     def zero_grad(self):
-        # set each parameter's gradient to zero 
+        # set each parameter's gradient to zero
         pass
 
 
@@ -575,19 +579,19 @@ class Optimizer():
 class Optimizer():
     def __init__(self, params, lr=0.5):
         self.params,self.lr = list(params),lr
-        
+
     def step(self):
         # iterate over the parameters and update them
         with torch.no_grad():
             for p in self.params: p -= p.grad * lr
 
     def zero_grad(self):
-        # set each parameter's gradient to zero 
+        # set each parameter's gradient to zero
         for p in self.params: p.grad.data.zero_()
 
 
 # %% [markdown]
-# It looks like we are duplicating code with the loop in `step` as well as in `zero_grad`. That's necessary because if we set to zero the gradient inside the step, we are no longer able to accumulate gradients if we want any more, since after finishing the optimizing step the gradient would invariably be set to zero. 
+# It looks like we are duplicating code with the loop in `step` as well as in `zero_grad`. That's necessary because if we set to zero the gradient inside the step, we are no longer able to accumulate gradients if we want any more, since after finishing the optimizing step the gradient would invariably be set to zero.
 
 # %%
 model = nn.Sequential(nn.Linear(m,n_hidden), nn.ReLU(), nn.Linear(n_hidden,10))
@@ -597,7 +601,7 @@ opt = Optimizer(model.parameters())
 
 
 # %% [markdown] {"solution_first": true, "solution": "shown"}
-# ### Exercise 
+# ### Exercise
 # *Implement the basic training loop now using the optimizer step and zero_grad*
 
 # %% {"solution": "shown"}
@@ -811,7 +815,7 @@ loss,acc
 class Sampler():
     def __init__(self, ds, bs, shuffle=False):
         self.n,self.bs,self.shuffle = len(ds),bs,shuffle
-        
+
     def __iter__(self):
         # Create a random permutation of self.n if self.shuffle = True
         # otherwise just return a range
@@ -841,7 +845,7 @@ def collate(b):
 class DataLoader():
     def __init__(self, ds, sampler, collate_fn=collate):
         self.ds,self.sampler,self.collate_fn = ds,sampler,collate_fn
-        
+
     def __iter__(self):
         for s in self.sampler: yield self.collate_fn([self.ds[i] for i in s])
 
@@ -934,20 +938,20 @@ def fit(epochs, model, loss_func, opt, train_dl, valid_dl):
         # Handle batchnorm / dropout
         model.train()
 #         print(model.training)
-        for xb,yb in train_dl:
-            loss = loss_func(model(xb), yb)
-            loss.backward()
-            opt.step()
-            opt.zero_grad()
+for xb,yb in train_dl:
+    loss = loss_func(model(xb), yb)
+    loss.backward()
+    opt.step()
+    opt.zero_grad()
 
-        model.eval()
+    model.eval()
 #         print(model.training)
-        with torch.no_grad():
-            tot_loss,tot_acc = 0.,0.
-            for xb,yb in valid_dl:
-                pred = model(xb)
-                tot_loss += loss_func(pred, yb)
-                tot_acc  += accuracy (pred,yb)
+with torch.no_grad():
+    tot_loss,tot_acc = 0.,0.
+    for xb,yb in valid_dl:
+        pred = model(xb)
+        tot_loss += loss_func(pred, yb)
+        tot_acc  += accuracy (pred,yb)
         nv = len(valid_dl)
         print(epoch, tot_loss/nv, tot_acc/nv)
     return tot_loss/nv, tot_acc/nv
