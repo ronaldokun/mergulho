@@ -403,11 +403,7 @@ model.l1
 # %% [markdown]
 # Instead of iterating through the model layers and checking if the layers is a parameter to be updated, Pytorch has the iterable `model.parameters()` which only keep the layers which have weights.
 
-<<<<<<< HEAD
 # %% [markdown]
-=======
-# %% [markdown] {"solution_first": true, "solution": "shown"}
->>>>>>> 84690f98d87a287eb89e92291de843b22ad2a20e
 # ### Exercise
 # Implement the same basic training loop but this time iterating directly through the `parameters` atribute in the update loop
 
