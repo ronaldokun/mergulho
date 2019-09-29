@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -19,10 +19,15 @@
 
 # %matplotlib inline
 
+import torch.nn.functional as F
 # %%
 #export
+from torch import optim
+# %%
+#export
+from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
+
 from exp.nb_02 import *
-import torch.nn.functional as F
 
 # %% [markdown] {"solution": "hidden"}
 # ## Initial setup
@@ -627,9 +632,6 @@ loss,acc
 # %% [markdown]
 # PyTorch already provides this exact functionality in `optim.SGD` (it also handles stuff like momentum, which we'll look at later - except we'll be doing it in a more flexible way!)
 
-# %%
-#export
-from torch import optim
 
 # %%
 optim.SGD.step??
@@ -880,9 +882,6 @@ loss,acc
 # %% [markdown]
 # ### PyTorch DataLoader
 
-# %%
-#export
-from torch.utils.data import DataLoader, SequentialSampler, RandomSampler
 
 # %%
 train_dl = DataLoader(train_ds, bs, sampler=RandomSampler(train_ds), collate_fn=collate)
