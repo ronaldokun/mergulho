@@ -33,6 +33,6 @@ pip3 install --no-deps pretrainedmodels
 # Setup the folders
 mkdir -p /content/.torch/
 mkdir -p /content/.fastai/
-mkdir -p /content/clouderizer/fastai-1.0/out/models
-echo data_path: /content/clouderizer/fastai-1.0/data/ > /content/.fastai/config.yml
-echo model_path: /content/clouderizer/fastai-1.0/out/ >> /content/.fastai/config.yml
+mkdir -p /content/clouderizer/fastai_2/out/models
+echo data_path: /content/clouderizer/fastai_2/data/ > /content/.fastai/config.yml
+echo model_path: /content/clouderizer/fastai_2/out/ >> /content/.fastai/config.yml
