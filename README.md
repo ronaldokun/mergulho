@@ -1,8 +1,8 @@
-# Study Repository for the Deep Learning Curriculum from fast.ai
-After suffering from repeateadly just passively watching the lectures and just executing the notebooks, despite Jeremy warned to not do that, and not being able to really learn much. After all learning is dinamic.
+# Repositório de Estudo Deep Learning
 
-This repository is my attempt to created copies from the courses notebooks, strip them from the given code and turn it to exercises to force me to rewrite the functions and classes. In the process I extend the explanations, define functions in a more verbose and piecewise manner.
+Após várias iterações do curso Deep Learning do fast.ai, mesmo a abordagem _top_down_ sendo atraente eu ainda peco em não internalizar os conceitos e repetidamente persisto a ter que revisar os conceitos ou a usar passivamente trechos prontos de código.
 
-I tried using the Classic Jupyter Notebook extensions: Exercise and Exercise2 to create the question and hidden solutions but unfortunately the format was not preserved between runs and sometimes even lost. So I kept only the stripped notebooks in the folders. The solutions can be seen in the courses notebooks.
+Desta vez decidi explorar a nova versão do curso paralelamente ao tentar implementar _from scratch_ o livro [Dive into Deep Learning](https://d2l.ai). Como este é aprofundado e escrito em mxnet/numpy é uma boa oportunidade tentar implementá-lo usando Pytorch. Desisti em tentar reproduzir em forma de estudo os notebooks do fast.ai, invariavelmente me vejo simplesmente copiando trechos de código.
 
+Escrever em português é uma forma de me forçar a entender devidamente os conceitos. Já existe conteúdo demais em inglês.
 
